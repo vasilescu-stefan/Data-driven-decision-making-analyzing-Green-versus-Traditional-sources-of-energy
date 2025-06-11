@@ -1,5 +1,7 @@
 FOR THIS PROGRAM TO COMPILE:
 
+-you should use the Data-Analysis-Between-Traditional-and-Green-sources-of-energy.py file to run the program
+
 -you need to put all this files in a folder and change the BASE_PATH variable to the one you made
 
 -you need to add the European Union Energy Market Data dataset inside the EU_energy_data folder as it wa to big to add in the repository
