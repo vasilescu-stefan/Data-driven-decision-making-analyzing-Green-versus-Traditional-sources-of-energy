@@ -1,0 +1,17 @@
+Unnamed: 0,Unnamed: 1,Unnamed: 2,Unnamed: 3,Unnamed: 4,Unnamed: 5,Unnamed: 6,Unnamed: 7,Unnamed: 8,Unnamed: 9
+,Back to the table of content,,,,,,,,
+,Table 3.9: Storage technologies,,,,,,,,
+,Country,Technology,Net capacity (MWe),"Storage
+ capacity (h)","Capacity
+ factor (%)",Overnight costs (USD/kWe),Investment costs (USD/kWe),,
+,,,,,,,0.03,0.07,0.1
+,Australia,Pumped storage,200,na,0.15,896.5849080851038,909.9343011053893,927.4346404056689,940.346184735479
+,Canada,ACAES*,250,4,0.15,1695,1772.3603050277097,1878.9179063605218,1961.4298674054091
+,Denmark,Lithium-ion battery,19.44,0.33,0.15,484.11250107217705,491.3205278687116,500.7698649609057,507.7414746342813
+,,Pumped storage,1000,na,0.15,4426.41875573959,4492.324397369152,4578.723163857435,4642.467156725995
+,Finland,Lithium-ion battery,1.14,5.26,0.15,1967.2972247731511,1996.5886210529566,2034.9880728255268,2063.3187363226643
+,Italy,Lithium-ion battery,2,0.5,0.15,452.1428571428571,458.8748829073839,467.700208139656,474.2114292083614
+,Non-OECD countries,,,,,,,,
+,India,Lithium-ion battery,1,4,0.15,826.0494775858418,838.3486575419785,854.4722237610953,866.3680011183623
+,,Pumped storage,175,na,0.15,562.8832723372551,571.2641294755074,582.2509843327817,590.3569565142823
+,* Adiabatic Compressed Air Energy Storage,,,,,,,,

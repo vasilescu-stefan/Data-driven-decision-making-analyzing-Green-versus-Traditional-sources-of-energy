@@ -1,0 +1,9 @@
+Column name 		Description
+fecha 			Date of the power prices in DD/MM/YYYY format. (Date)
+hora 			Hour that corresponds with each set of power prices listed by minute. (Time)
+sistema 		Numeric code for system identifier for each set of reported price points for a specific hour across EU countries. (Numeric)
+bandera 		Indicator of whether or not electricity is green (Y) or non-green/conventional electricity (N). (Boolean)
+precio 			Cost per Megawatt Hour expressed in Euro €/MWh currency format. (Currency)
+tipo_moneda 		Euros represented as Euros € EUROSCURSUSD ($ EURS = US Dollars $ USD) as well as other available foreign currencies. (Currency)
+origen_dato 		Databases selected according to regional exchanges. (String)
+fecha_actualizacion 	Refers back to source DateTime objects entered inline at origin source databases. (DateTime)
