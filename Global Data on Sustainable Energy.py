@@ -3,22 +3,19 @@ import plotly.express as px
 
 df = pd.read_csv('Data-Analysis-Between-Traditional-and-Green-sources-of-energy\Global Data on Sustainable Energy (2000-2020)\global-data-on-sustainable-energy (1).csv')  # Replace with your actual file path
 
-# Display the first few rows to understand the structure
+
 print(df.head())
 
 viz_df = df.copy()
 
-# Fill/replace zeros in size column (CO2 emissions)
-viz_df['Value_co2_emissions_kt_by_country'] = viz_df['Value_co2_emissions_kt_by_country'].replace(0, 1)  # Replace 0 with 1 kt
+viz_df['Value_co2_emissions_kt_by_country'] = viz_df['Value_co2_emissions_kt_by_country'].replace(0, 1)
 
-# Filter out rows with missing values in key columns
 viz_df = viz_df.dropna(subset=[
     'gdp_per_capita',
     'Renewables (% equivalent primary energy)',
     'Value_co2_emissions_kt_by_country'
 ])
 
-# Now create the visualization
 fig = px.scatter(viz_df, 
                  x='gdp_per_capita', 
                  y='Renewables (% equivalent primary energy)',
@@ -30,29 +27,24 @@ fig = px.scatter(viz_df,
                  title='Renewable Energy vs GDP (Size = CO2 Emissions)')
 fig.show()
 
-# Filter most recent year
 latest_year = df['Year'].max()
 year_df = df[df['Year'] == latest_year].copy()
 
-# Calculate total electricity (handle missing values)
 year_df['Total Electricity (TWh)'] = (year_df['Electricity from fossil fuels (TWh)'].fillna(0) + 
                                      year_df['Electricity from nuclear (TWh)'].fillna(0) + 
                                      year_df['Electricity from renewables (TWh)'].fillna(0))
 
-# Filter out countries with zero total electricity
-year_df = year_df[year_df['Total Electricity (TWh)'] > 0]
 
-# Handle missing/zero values in the color variable
+year_df = year_df[year_df['Total Electricity (TWh)'] > 0]
 year_df['Low-carbon electricity (% electricity)'] = year_df['Low-carbon electricity (% electricity)'].fillna(0)
 
-# Create visualization with safety checks
 if not year_df.empty:
     fig = px.treemap(year_df,
                     path=['Entity'],
                     values='Total Electricity (TWh)',
                     color='Low-carbon electricity (% electricity)',
                     color_continuous_scale=['red', 'yellow', 'green'],
-                    color_continuous_midpoint=50,  # 50% as midpoint
+                    color_continuous_midpoint=50,
                     hover_data={
                         'Fossil Fuels (TWh)': year_df['Electricity from fossil fuels (TWh)'].round(1),
                         'Renewables (TWh)': year_df['Electricity from renewables (TWh)'].round(1),
@@ -61,7 +53,6 @@ if not year_df.empty:
                     },
                     title=f'Global Energy Mix {latest_year} <br><sup>Size=Total Energy, Color=% Low-Carbon</sup>')
     
-    # Adjust layout for readability
     fig.update_layout(
         margin=dict(t=80, l=0, r=0, b=0),
         coloraxis_colorbar=dict(
@@ -155,8 +146,6 @@ def create_animated_barchart(countries):
 
 create_animated_barchart(['Germany', 'France', 'United States', 'China']).show()
 
-# Aggregate global data
-# Calculate percentages
 global_df = df.groupby('Year')[['Electricity from fossil fuels (TWh)',
                               'Electricity from nuclear (TWh)',
                               'Electricity from renewables (TWh)']].sum().reset_index()

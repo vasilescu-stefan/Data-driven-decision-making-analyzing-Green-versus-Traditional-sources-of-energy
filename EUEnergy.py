@@ -3,10 +3,9 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-# Load data
+
 df_eu = pd.read_csv('Data-Analysis-Between-Traditional-and-Green-sources-of-energy\EU_energy data\EU_energy_data.csv')
 
-# 1. Rename columns
 column_translation = {
     'fecha': 'date',
     'hora': 'time',
@@ -19,34 +18,31 @@ column_translation = {
 }
 df_eu = df_eu.rename(columns=column_translation)
 
-# 2. Robust boolean conversion
 df_eu['is_green_energy'] = (
     df_eu['is_green_energy']
     .astype(str).str.strip().str.upper()
     .map({'Y': True, '1': True, 'N': False, '0': False})
 )
 
-# 3. Handle remaining NAs (if any)
+
 if df_eu['is_green_energy'].isna().any():
     print(f"Warning: {df_eu['is_green_energy'].isna().sum()} unmapped values found")
-    # Option 1: Fill NAs with False (conservative)
     df_eu['is_green_energy'] = df_eu['is_green_energy'].fillna(False)
     
-    # Option 2: Keep as NA and investigate
-    # print(df_eu[df_eu['is_green_energy'].isna()]['is_green_energy'].value_counts())
 
-# 4. Convert other types
+
+
 df_eu['date'] = pd.to_datetime(df_eu['date'], dayfirst=True)
 df_eu['last_updated'] = pd.to_datetime(df_eu['last_updated'])
 
 df_eu['hour'] = pd.to_datetime(df_eu['time']).dt.hour
 
-# Calculate price difference between green/conventional
+
 price_diff = df_eu.pivot_table(index=['date', 'hour'], 
                              columns='is_green_energy', 
                              values='price_eur_mwh',
                              aggfunc='mean')
-price_diff['price_diff'] = price_diff[True] - price_diff[False]  # Green - Conventional
+price_diff['price_diff'] = price_diff[True] - price_diff[False] 
 
 fig = px.density_heatmap(price_diff.reset_index(), 
                         x='hour', 
@@ -55,14 +51,13 @@ fig = px.density_heatmap(price_diff.reset_index(),
                         nbinsx=24,
                         title='<b>Green vs Conventional Price Gap (€/MWh)</b><br>Positive = Green more expensive',
                         color_continuous_scale='RdBu',
-                        range_color=[-50, 50])  # Adjust based on your data range
+                        range_color=[-50, 50])
 fig.update_layout(yaxis_title='Date', xaxis_title='Hour of Day')
 fig.show()
 
 if 'hour' not in df_eu.columns:
     df_eu['hour'] = pd.to_datetime(df_eu['time']).dt.hour
 
-# Create hour labels
 df_eu['hour_str'] = df_eu['hour'].astype(str) + ':00'
 
 fig = go.Figure()
@@ -95,13 +90,11 @@ hourly_prices = (
     df_eu.set_index('date')
     .groupby(['is_green_energy', pd.Grouper(freq='H')])['price_eur_mwh']
     .agg(['first', 'max', 'min', 'last'])
-    .reset_index(level=0)  # Bring is_green_energy back as column
+    .reset_index(level=0) 
 )
 
-# 2. Create figure
 fig = make_subplots(rows=2, cols=1, shared_xaxes=True)
 
-# 3. Add traces for each energy type
 for i, (is_green, color) in enumerate([(True, 'green'), (False, 'red')], 1):
     subset = hourly_prices[hourly_prices['is_green_energy'] == is_green]
     
@@ -117,7 +110,6 @@ for i, (is_green, color) in enumerate([(True, 'green'), (False, 'red')], 1):
         showlegend=True
     ), row=i, col=1)
 
-# 4. Update layout
 fig.update_layout(
     title='<b>Hourly Electricity Price Candlesticks</b><br>Green vs Conventional Energy',
     yaxis_title='Price (€/MWh)',
@@ -127,7 +119,6 @@ fig.update_layout(
     hovermode='x unified'
 )
 
-# Add range slider
 fig.update_xaxes(
     rangeslider_thickness=0.05,
     row=2, col=1
@@ -148,13 +139,13 @@ fig.add_trace(go.Bar(
 ))
 fig.add_trace(go.Bar(
     x=hourly_avg.index,
-    y=-hourly_avg[False],  # Mirror below axis
+    y=-hourly_avg[False],
     name='Conventional',
     marker_color='#e74c3c',
     opacity=0.7
 ))
 
-# Add spread line
+
 fig.add_trace(go.Scatter(
     x=hourly_avg.index,
     y=hourly_avg[True] - hourly_avg[False],
