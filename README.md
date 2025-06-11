@@ -5,7 +5,10 @@ FOR THIS PROGRAM TO COMPLIE:
 -you need to add the European Union Energy Market Data dataset inside the EU_energy_data folder as it wa to big to add in the repository
 
 
+
+
 Links to datasets:
+
 Projected Costs of Generating Electricity 2020(IEA website):https://www.iea.org/reports/projected-costs-of-generating-electricity-2020#downloads
 
 Global Energy Substitution from 1983 to 2022:https://www.kaggle.com/datasets/mohamedyosef101/global-energy-substitution-from-1983-to-2022
