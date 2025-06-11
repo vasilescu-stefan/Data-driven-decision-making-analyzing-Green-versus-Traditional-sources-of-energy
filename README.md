@@ -1,4 +1,4 @@
-FOR THIS PROGRAM TO COMPLIE:
+FOR THIS PROGRAM TO COMPILE:
 
 -you need to put all this files in a folder and change the BASE_PATH variable to the one you made
 
